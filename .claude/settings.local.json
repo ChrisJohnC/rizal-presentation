@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cp -r \"C:\\\\Users\\\\Christopher Cejalvo\\\\OneDrive\\\\Desktop\\\\Rizal-Test\\\\Lead-Research-Assitant-Skill\" \"C:\\\\Users\\\\Christopher Cejalvo\\\\.claude\\\\skills\\\\lead-research-assistant\")",
+      "Bash(cp -r \"C:\\\\Users\\\\Christopher Cejalvo\\\\OneDrive\\\\Desktop\\\\Rizal-Test\\\\Skill-Creator-skill\" \"C:\\\\Users\\\\Christopher Cejalvo\\\\.claude\\\\skills\\\\skill-creator\")",
+      "Bash(mkdir -p \"C:\\\\Users\\\\Christopher Cejalvo\\\\OneDrive\\\\Desktop\\\\Rizal-Test\\\\.claude\\\\skills\")",
+      "Bash(cp -r \"C:\\\\Users\\\\Christopher Cejalvo\\\\.claude\\\\skills\\\\lead-research-assistant\" \"C:\\\\Users\\\\Christopher Cejalvo\\\\OneDrive\\\\Desktop\\\\Rizal-Test\\\\.claude\\\\skills\\\\lead-research-assistant\")",
+      "Bash(cp -r \"C:\\\\Users\\\\Christopher Cejalvo\\\\.claude\\\\skills\\\\skill-creator\" \"C:\\\\Users\\\\Christopher Cejalvo\\\\OneDrive\\\\Desktop\\\\Rizal-Test\\\\.claude\\\\skills\\\\skill-creator\")",
+      "Bash(gh repo:*)",
+      "Bash(git clone:*)",
+      "Bash(npm install:*)",
+      "Bash(uipro init:*)",
+      "Bash(python skills/ui-ux-pro-max/scripts/search.py \"cinematic documentary dark sepia vintage heritage museum scroll storytelling\" --design-system -p \"Rizal Then Now Us\")",
+      "Bash(python \"C:\\\\Users\\\\Christopher Cejalvo\\\\OneDrive\\\\Desktop\\\\Rizal-Test\\\\.claude\\\\skills\\\\ui-ux-pro-max\\\\scripts\\\\search.py\" \"cinematic documentary dark sepia vintage heritage museum scroll storytelling\" --design-system -p \"Rizal Then Now Us\")",
+      "Bash(python:*)",
+      "Bash(python3 -c \":*)"
+    ]
+  }
+}
