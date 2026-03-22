@@ -22,11 +22,15 @@
 
 > *Basahin pagkatapos mawala ang quill video. Calm, personal na tono.*
 
-"Hi, ako si [pangalan mo]. And honestly, lumaki akong kilala si Rizal bilang yung nasa piso bill.
+"Ako si [pangalan mo], at kasama ko si [pangalan ng partner] —
+at ngayon ay ibabahagi namin ang buhay ng isang taong hindi lamang nabuhay para sa kanyang sarili,
+kundi para sa buong bansa.
 
-Pero nung pinag-aralan ko talaga ang buhay niya... na-realize ko — mas higit pa pala siya sa inakala ko.
+Marami sa atin ang nakakakilala kay Rizal bilang mukha sa piso, o bilang pangalan ng isang holiday.
+Ngunit ang tunay na Rizal — ang lalim ng kanyang isipan, ang lakas ng kanyang loob —
+iyon ay bihirang maunawaan nang ganap.
 
-Narito ang limang bagay tungkol sa kanya na sa tingin ko dapat malaman ng lahat:
+Narito ang ilang katotohanan tungkol sa kanya na dapat malaman ng bawat Pilipino:
 
 Ipinanganak siya noong Hunyo 19, 1861, sa Calamba, Laguna — ikapito sa labing-isang magkakapatid ng pamilya niya.
 

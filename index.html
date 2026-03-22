@@ -552,9 +552,10 @@
     }
 
     .footer-emblem {
-      width: 36px;
-      height: 36px;
-      opacity: 0.6;
+      width: 52px;
+      height: 52px;
+      opacity: 0.75;
+      object-fit: contain;
     }
 
     /* partner names row */
@@ -1857,10 +1858,7 @@
     <div class="footer-top">
 
       <div class="footer-emblem-wrap">
-        <svg class="footer-emblem" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M20 4C20 4 14 6 10 12C8 15 7 18 7 18L9 16C9 16 8 19 6 21C8 20 10 19 12 17L10 19C10 19 13 18 16 16C22 12 20 4 20 4Z" stroke="#c8943e" stroke-width="1.2" stroke-linejoin="round"/>
-          <path d="M7 18L3 21" stroke="#c8943e" stroke-width="1.2" stroke-linecap="round"/>
-        </svg>
+        <img class="footer-emblem" src="image/quill-icon.png" alt="Quill emblem">
       </div>
 
       <div class="footer-names">
@@ -1964,9 +1962,16 @@
     const sceneReveal = document.getElementById('scene-reveal');
     let splashDismissed = false;
 
+    // ─── INTRO SPLASH AUDIO ──────────────────────────────────────────────────
+    const introSplashAudio = new Audio('audio/intro-splash.mp3');
+    introSplashAudio.volume = 1.0;
+
     function dismissSplash() {
       if (splashDismissed) return;
       splashDismissed = true;
+
+      // Play intro narration in sync with the 3D scene reveal
+      introSplashAudio.play().catch(() => {});
 
       const tl = gsap.timeline();
 
@@ -2311,12 +2316,12 @@
     // Total window = 70% of scroll-container ≈ 25.3s at 30s auto-scroll
     // [scrollStart%, fadeIn, stay, fadeOut] — all in scroll-% units
     const lineConfigs = [
-      [0,   2,   4,  2  ],  // line 1 — short  (8%)
-      [8,   2.5, 5,  2.5],  // line 2 — medium (10%)
-      [18,  2,   4,  2  ],  // line 3 — short  (8%)
-      [26,  2.5, 5,  2.5],  // line 4 — medium (10%)
-      [36,  3,   9,  5  ],  // line 5 — long   (17%)
-      [53,  3,   9,  5  ],  // line 6 — long   (17%)
+      [0,   1,   16, 2  ],  // line 1 — long stay so first scroll can't skip it (19%)
+      [19,  2.5, 5,  2.5],  // line 2 — medium (10%)
+      [29,  2,   4,  2  ],  // line 3 — short  (8%)
+      [37,  2.5, 5,  2.5],  // line 4 — medium (10%)
+      [47,  3,   9,  5  ],  // line 5 — long   (17%)
+      [64,  3,   9,  5  ],  // line 6 — long   (17%)
     ];
 
     const lines = document.querySelectorAll('.intro-line');
