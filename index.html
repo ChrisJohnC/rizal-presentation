@@ -1000,6 +1000,32 @@
       animation: divider-expand 1.1s 0.2s ease-out forwards;
     }
 
+    /* ── SECTION BACKGROUND PHOTOS ──────────────────────────────────────────── */
+    .section-photo {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0;
+      filter: sepia(100%) brightness(0.35) contrast(1.1);
+      z-index: 0;
+      pointer-events: none;
+      transition: opacity 1.8s ease;
+    }
+    .section-photo.visible {
+      opacity: 0.13;
+    }
+    /* slight zoom-in on the photo as section enters — Ken Burns feel */
+    @keyframes photo-drift {
+      0%   { transform: scale(1.04); }
+      100% { transform: scale(1.0);  }
+    }
+    .section-photo.visible {
+      opacity: 0.13;
+      animation: photo-drift 12s ease-out forwards;
+    }
+
     /* ── AGED PAPER SCAN LINES over content area ─────────────────────────────── */
     .content-wrap {
       isolation: isolate;
@@ -1177,6 +1203,201 @@
       opacity: 0; transition: opacity 1.2s;
     }
     #particle-canvas.active { opacity: 1; }
+
+    /* ══════════════════════════════════════════════════════════════════════════
+       ── VINTAGE AUDIO PLAYER ────────────────────────────────────────────────
+       ══════════════════════════════════════════════════════════════════════ */
+
+    .audio-player {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      margin-top: 48px;
+      padding: 26px 36px 22px;
+      max-width: 480px;
+      width: 100%;
+      z-index: 2;
+      opacity: 0;
+      transform: translateY(20px);
+
+      /* Parchment card */
+      background:
+        repeating-linear-gradient(0deg, transparent 0, transparent 3px, rgba(160,100,30,0.018) 3px, rgba(160,100,30,0.018) 4px),
+        rgba(200,148,62,0.06);
+      border: 1px solid rgba(200,148,62,0.28);
+      border-top: 2px solid rgba(200,148,62,0.5);
+      border-radius: 2px;
+      box-shadow:
+        0 0 0 1px rgba(200,148,62,0.08),
+        0 0 0 4px rgba(200,148,62,0.04),
+        0 8px 40px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(200,148,62,0.12);
+      outline: 1px dashed rgba(200,148,62,0.1);
+      outline-offset: 6px;
+    }
+
+    /* decorative top label */
+    .ap-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 500;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: rgba(200,148,62,0.65);
+      font-variant: small-caps;
+      position: relative;
+    }
+    .ap-label::before,
+    .ap-label::after {
+      content: '—';
+      margin: 0 10px;
+      opacity: 0.4;
+    }
+
+    /* row: play button + bar + time */
+    .ap-row {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      width: 100%;
+    }
+
+    /* ── PLAY BUTTON — wax seal circle ── */
+    .ap-play {
+      flex-shrink: 0;
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 1px solid rgba(200,148,62,0.5);
+      background:
+        radial-gradient(circle at 35% 35%, rgba(245,201,106,0.18) 0%, rgba(200,148,62,0.08) 60%, transparent 100%),
+        rgba(200,148,62,0.1);
+      color: #f0deb0;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+      box-shadow:
+        0 0 0 1px rgba(200,148,62,0.15),
+        0 0 16px rgba(200,148,62,0.12),
+        inset 0 1px 0 rgba(255,220,140,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    .ap-play:hover {
+      background: rgba(200,148,62,0.2);
+      box-shadow:
+        0 0 0 1px rgba(200,148,62,0.4),
+        0 0 24px rgba(200,148,62,0.3),
+        inset 0 1px 0 rgba(255,220,140,0.15);
+      transform: scale(1.06);
+    }
+    .ap-play svg { width: 18px; height: 18px; fill: #f0deb0; pointer-events: none; }
+    /* shift play icon slightly right for optical center */
+    .ap-play .icon-play  { transform: translateX(2px); }
+    .ap-play .icon-pause { display: none; }
+    .ap-play.playing .icon-play  { display: none; }
+    .ap-play.playing .icon-pause { display: block; }
+
+    /* pulse ring when playing */
+    @keyframes ap-ring-pulse {
+      0%   { transform: scale(1);   opacity: 0.6; }
+      100% { transform: scale(1.7); opacity: 0; }
+    }
+    .ap-play.playing::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(200,148,62,0.6);
+      animation: ap-ring-pulse 1.4s ease-out infinite;
+    }
+
+    /* ── PROGRESS TRACK ── */
+    .ap-track {
+      flex: 1;
+      position: relative;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+    .ap-track-bg {
+      position: absolute;
+      left: 0; right: 0;
+      height: 1px;
+      background: rgba(200,148,62,0.2);
+    }
+    /* decorative tick marks like ruled paper */
+    .ap-track-bg::before {
+      content: '';
+      position: absolute;
+      inset: -4px 0;
+      background: repeating-linear-gradient(
+        90deg,
+        transparent 0, transparent 9%,
+        rgba(200,148,62,0.12) 9%, rgba(200,148,62,0.12) calc(9% + 1px)
+      );
+    }
+    .ap-fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 0%;
+      height: 1px;
+      margin: auto;
+      background: linear-gradient(to right, #c8943e, #f5c96a);
+      box-shadow: 0 0 6px rgba(200,148,62,0.7);
+      transition: width 0.1s linear;
+      pointer-events: none;
+    }
+    .ap-handle {
+      position: absolute;
+      top: 50%;
+      left: 0%;
+      transform: translate(-50%, -50%);
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: #f5c96a;
+      box-shadow: 0 0 8px rgba(200,148,62,0.9), 0 0 16px rgba(200,148,62,0.4);
+      pointer-events: none;
+      transition: left 0.1s linear;
+    }
+
+    /* ── TIME DISPLAY ── */
+    .ap-time {
+      font-family: 'IM Fell English', Georgia, serif;
+      font-size: 0.78rem;
+      color: rgba(200,148,62,0.7);
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+      min-width: 36px;
+      text-align: right;
+    }
+
+    /* ── SECTION NAME BELOW ── */
+    .ap-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.72rem;
+      font-style: italic;
+      color: rgba(200,148,62,0.5);
+      letter-spacing: 0.12em;
+    }
+
+    /* glow the whole card when playing */
+    .audio-player.ap-active {
+      border-color: rgba(200,148,62,0.5);
+      box-shadow:
+        0 0 0 1px rgba(200,148,62,0.15),
+        0 0 0 4px rgba(200,148,62,0.05),
+        0 0 40px rgba(200,148,62,0.12),
+        0 8px 40px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(200,148,62,0.15);
+    }
+
+    @media (max-width: 600px) {
+      .audio-player { padding: 20px 20px 16px; }
+      .ap-play { width: 44px; height: 44px; }
+    }
 
     /* ── SCROLL BAR ──────────────────────────────────────────────────────────── */
     #scroll-bar {
@@ -1379,6 +1600,7 @@
 
     <!-- ── PANIMULA ───────────────────────────────────────────────────────────── -->
     <div class="section intro">
+      <div class="section-photo" style="background-image:url('image/bg-intro.jpg')"></div>
       <p class="section-label">Panimula</p>
       <h1 class="section-title">Siya Na May Hawak<br>ng <span>Pluma</span></h1>
       <div class="divider"></div>
@@ -1395,10 +1617,23 @@
         <li><span class="bullet-dot"></span><p>Isinulat ang <strong>Noli Me Tangere</strong> (1887) at <strong>El Filibusterismo</strong> (1891) — mga akdang nagbunyag sa mundo ng kabuktutan ng pananakop ng Espanya</p></li>
         <li><span class="bullet-dot"></span><p>Binaril noong <strong>Disyembre 30, 1896</strong> sa Bagumbayan — tatlumpu't limang taon lamang ang kanyang edad nang yaon</p></li>
       </ul>
+      <div class="audio-player" data-src="audio/intro.mp3">
+        <span class="ap-label">Pakinggan</span>
+        <div class="ap-row">
+          <button class="ap-play" aria-label="Play/Pause">
+            <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <div class="ap-track"><div class="ap-track-bg"></div><div class="ap-fill"></div><div class="ap-handle"></div></div>
+          <span class="ap-time">0:00</span>
+        </div>
+        <span class="ap-title">Panimula — Siya Na May Hawak ng Pluma</span>
+      </div>
     </div>
 
     <!-- ── NOON ───────────────────────────────────────────────────────────────── -->
     <div class="section then">
+      <div class="section-photo" style="background-image:url('image/bg-then.jpg')"></div>
       <p class="section-label">Noon — Sa Ilalim ng Pananakop</p>
       <h1 class="section-title">Ang Bayang<br><span>Nakabalangkas</span></h1>
       <div class="divider"></div>
@@ -1413,10 +1648,23 @@
         <p class="quote-text">"Ang kabataan ang pag-asa ng ating bayan."</p>
         <span class="quote-source">— José Rizal, La Juventud Filipina, 1879</span>
       </div>
+      <div class="audio-player" data-src="audio/then.mp3">
+        <span class="ap-label">Pakinggan</span>
+        <div class="ap-row">
+          <button class="ap-play" aria-label="Play/Pause">
+            <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <div class="ap-track"><div class="ap-track-bg"></div><div class="ap-fill"></div><div class="ap-handle"></div></div>
+          <span class="ap-time">0:00</span>
+        </div>
+        <span class="ap-title">Noon — Ang Bayang Nakabalangkas</span>
+      </div>
     </div>
 
     <!-- ── NGAYON ──────────────────────────────────────────────────────────────── -->
     <div class="section now">
+      <div class="section-photo" style="background-image:url('image/bg-now.jpg')"></div>
       <p class="section-label">Ngayon — Sa Kasalukuyang Panahon</p>
       <h1 class="section-title">Ang Sugat ng Panahon,<br><span>Nananatili</span></h1>
       <div class="divider"></div>
@@ -1427,10 +1675,23 @@
         <li><span class="bullet-dot"></span><p>Ang mga pampublikong paaralan ay <strong>puno at kapos sa salapi</strong> — kulang sa silya, aklat, at wastong pasilidad</p></li>
         <li><span class="bullet-dot"></span><p>Nag-iba na ang bandila. Ngunit ang sugat — <strong>nananatili pa rin.</strong></p></li>
       </ul>
+      <div class="audio-player" data-src="audio/now.mp3">
+        <span class="ap-label">Pakinggan</span>
+        <div class="ap-row">
+          <button class="ap-play" aria-label="Play/Pause">
+            <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <div class="ap-track"><div class="ap-track-bg"></div><div class="ap-fill"></div><div class="ap-handle"></div></div>
+          <span class="ap-time">0:00</span>
+        </div>
+        <span class="ap-title">Ngayon — Ang Sugat ng Panahon, Nananatili</span>
+      </div>
     </div>
 
     <!-- ── MGA HALAGA NI RIZAL ─────────────────────────────────────────────────── -->
     <div class="section values">
+      <div class="section-photo" style="background-image:url('image/bg-values.png')"></div>
       <p class="section-label">Mga Halaga ni Rizal</p>
       <h1 class="section-title">Karunungan<br>Bilang <span>Sandata</span></h1>
       <div class="divider"></div>
@@ -1444,10 +1705,23 @@
         <li><span class="bullet-dot"></span><p>Sa kasalukuyan: ang isang may karunungan ay may kakayahang <strong>kilalanin ang kasinungalingan, magtanong, at ipaglaban ang katotohanan</strong></p></li>
         <li><span class="bullet-dot"></span><p>Bawat mag-aaral na nagpapatuloy ng kanilang pag-aaral ay <strong>nagpapatuloy ng adhikaing sinimulan ni Rizal</strong></p></li>
       </ul>
+      <div class="audio-player" data-src="audio/values.mp3">
+        <span class="ap-label">Pakinggan</span>
+        <div class="ap-row">
+          <button class="ap-play" aria-label="Play/Pause">
+            <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <div class="ap-track"><div class="ap-track-bg"></div><div class="ap-fill"></div><div class="ap-handle"></div></div>
+          <span class="ap-time">0:00</span>
+        </div>
+        <span class="ap-title">Mga Halaga — Karunungan Bilang Sandata</span>
+      </div>
     </div>
 
     <!-- ── TAYO ────────────────────────────────────────────────────────────────── -->
     <div class="section us">
+      <div class="section-photo" style="background-image:url('image/bg-us.jpg')"></div>
       <p class="section-label">Tayo — Ano ang Ating Gampanin?</p>
       <h1 class="section-title">Ano ang Ating<br><span>Gampanin?</span></h1>
       <div class="divider"></div>
@@ -1458,10 +1732,23 @@
         <li><span class="bullet-dot"></span><p><strong>Magsalita</strong> — kahit sa loob ng silid-aralan, kahit sa bawat pagtitipon — sapagkat ang katahimikan ay hindi kailanman nagbunga ng pagbabago</p></li>
         <li><span class="bullet-dot"></span><p>Binago niya ang isang bansa sa pamamagitan ng kanyang pluma. <strong>Marahil, mababago ko rin ang takbo ng isang mahalagang usapin.</strong></p></li>
       </ul>
+      <div class="audio-player" data-src="audio/us.mp3">
+        <span class="ap-label">Pakinggan</span>
+        <div class="ap-row">
+          <button class="ap-play" aria-label="Play/Pause">
+            <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <div class="ap-track"><div class="ap-track-bg"></div><div class="ap-fill"></div><div class="ap-handle"></div></div>
+          <span class="ap-time">0:00</span>
+        </div>
+        <span class="ap-title">Tayo — Ano ang Ating Gampanin?</span>
+      </div>
     </div>
 
     <!-- ── KONKLUSYON ──────────────────────────────────────────────────────────── -->
     <div class="section end">
+      <div class="section-photo" style="background-image:url('image/bg-end.jpg')"></div>
       <p class="section-label">Wakas</p>
       <h1 class="section-title">Noon. Ngayon.<br><span>Tayo.</span></h1>
       <div class="divider"></div>
@@ -1472,6 +1759,18 @@
       </ul>
       <p class="striking">"Ang bawat salita niya ay isang hakbang pasulong.<br>Ang bawat pagpili natin ay ang susunod."</p>
       <p class="striking-tagline">Every word he wrote was a step forward. Every choice we make is the next.</p>
+      <div class="audio-player" data-src="audio/conclusion.mp3">
+        <span class="ap-label">Pakinggan</span>
+        <div class="ap-row">
+          <button class="ap-play" aria-label="Play/Pause">
+            <svg class="icon-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <svg class="icon-pause" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          </button>
+          <div class="ap-track"><div class="ap-track-bg"></div><div class="ap-fill"></div><div class="ap-handle"></div></div>
+          <span class="ap-time">0:00</span>
+        </div>
+        <span class="ap-title">Wakas — Noon. Ngayon. Tayo.</span>
+      </div>
     </div>
 
   </div>
@@ -2070,7 +2369,7 @@
       // Animate heading elements (fade up)
       const headEls = section.querySelectorAll(
         '.section-label, .section-title, .divider, .section-body, ' +
-        '.quote-box, .value-card, .striking, .striking-tagline'
+        '.quote-box, .value-card, .striking, .striking-tagline, .facts-grid'
       );
       if (!prefersReduced) {
         gsap.to(headEls, {
@@ -2195,6 +2494,104 @@
       camera.updateProjectionMatrix();
       renderer.setSize(window.innerWidth, window.innerHeight);
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    });
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // ─── SECTION BACKGROUND PHOTOS ───────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    document.querySelectorAll('.section-photo').forEach(photo => {
+      const section = photo.closest('.section');
+      ScrollTrigger.create({
+        trigger: section,
+        start: 'top 80%',
+        end: 'bottom 20%',
+        onEnter: () => photo.classList.add('visible'),
+        onLeave: () => photo.classList.remove('visible'),
+        onEnterBack: () => photo.classList.add('visible'),
+        onLeaveBack: () => photo.classList.remove('visible'),
+      });
+    });
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // ─── VINTAGE AUDIO PLAYERS ───────────────────────────────────────────
+    // ═══════════════════════════════════════════════════════════════════════
+    let currentAudio = null;
+    let currentBtn   = null;
+
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = Math.floor(s % 60);
+      return `${m}:${sec.toString().padStart(2, '0')}`;
+    }
+
+    document.querySelectorAll('.audio-player').forEach(player => {
+      const src    = player.dataset.src;
+      const btn    = player.querySelector('.ap-play');
+      const fill   = player.querySelector('.ap-fill');
+      const handle = player.querySelector('.ap-handle');
+      const track  = player.querySelector('.ap-track');
+      const time   = player.querySelector('.ap-time');
+      const audio  = new Audio(src);
+
+      // Animate player in when section scrolls into view
+      ScrollTrigger.create({
+        trigger: player,
+        start: 'top 88%',
+        onEnter: () => gsap.to(player, { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
+      });
+
+      function updateBar() {
+        if (!audio.duration) return;
+        const pct = (audio.currentTime / audio.duration) * 100;
+        fill.style.width   = pct + '%';
+        handle.style.left  = pct + '%';
+        time.textContent   = formatTime(audio.currentTime);
+      }
+
+      audio.addEventListener('timeupdate', updateBar);
+
+      audio.addEventListener('ended', () => {
+        btn.classList.remove('playing');
+        player.classList.remove('ap-active');
+        fill.style.width  = '0%';
+        handle.style.left = '0%';
+        time.textContent  = '0:00';
+        currentAudio = null;
+        currentBtn   = null;
+      });
+
+      btn.addEventListener('click', () => {
+        // Stop any other playing audio
+        if (currentAudio && currentAudio !== audio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+          currentBtn.classList.remove('playing');
+          currentBtn.closest('.audio-player').classList.remove('ap-active');
+        }
+
+        if (audio.paused) {
+          audio.play().catch(() => {});
+          btn.classList.add('playing');
+          player.classList.add('ap-active');
+          currentAudio = audio;
+          currentBtn   = btn;
+        } else {
+          audio.pause();
+          btn.classList.remove('playing');
+          player.classList.remove('ap-active');
+          currentAudio = null;
+          currentBtn   = null;
+        }
+      });
+
+      // Click on track to seek
+      track.addEventListener('click', (e) => {
+        if (!audio.duration) return;
+        const rect = track.getBoundingClientRect();
+        const pct  = (e.clientX - rect.left) / rect.width;
+        audio.currentTime = pct * audio.duration;
+        updateBar();
+      });
     });
 
     // ─── TOP SCROLL PROGRESS BAR ─────────────────────────────────────────
