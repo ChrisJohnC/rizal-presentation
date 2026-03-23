@@ -1968,7 +1968,7 @@
 
     // ─── BACKGROUND MUSIC ────────────────────────────────────────────────────
     const bgMusic = new Audio('image/audio-bg-music.mp3');
-    bgMusic.loop = true;
+    bgMusic.loop = false;
     bgMusic.volume = 0;
 
     let musicFadeTimer = null;
@@ -1998,9 +1998,10 @@
       // Play intro narration in sync with the 3D scene reveal
       introSplashAudio.play().catch(() => {});
 
-      // Fade background music in
+      // Fade background music in, then fade out at 25.5s before the 27s track ends
       bgMusic.play().catch(() => {});
       fadeMusicVolume(0, 0.07, 4000);
+      setTimeout(() => fadeMusicVolume(bgMusic.volume, 0, 1500), 25500);
 
       const tl = gsap.timeline();
 
