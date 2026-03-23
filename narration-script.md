@@ -143,13 +143,3 @@ Ang bawat pagpili natin ay ang susunod.'
 
 Every word he wrote was a step forward.
 Every choice we make... is the next."
-
----
-
-## Mga Tips para sa Pag-record
-
-- **Magsalita nang dahan-dahan.** Natural na bibilis ka — pabagalin ng 30%.
-- **Mag-pause sa pagitan ng mga bullet point.** Bigyan ng oras ang manonood na mabasa ang text sa screen.
-- **Huwag mukhang nagbabasa.** Tumingin sa taas, huminga, tapos sabihin ang linya.
-- **I-record ang bawat section nang hiwalay** — mas madaling i-edit kung may masaling bahagi.
-- **File naming:** `audio/intro.mp3`, `audio/then.mp3`, `audio/now.mp3`, `audio/values.mp3`, `audio/us.mp3`, `audio/conclusion.mp3`
