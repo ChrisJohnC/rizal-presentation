@@ -32,15 +32,25 @@ iyon ay bihirang maunawaan nang ganap.
 
 Narito ang ilang katotohanan tungkol sa kanya na dapat malaman ng bawat Pilipino:
 
-Ipinanganak siya noong Hunyo 19, 1861, sa Calamba, Laguna — ikapito sa labing-isang magkakapatid ng pamilya niya.
+Una — ang buong pangalan niya: José Protasio Rizal Mercado y Alonso Realonda.
+Hindi simpleng pangalan — bawat bahagi nito ay may kahulugan at kasaysayan.
 
-Nakapagsalita at nakapagsulat siya sa mahigit dalawampu't dalawang wika. Hindi dalawa. Hindi lima. Dalawampu't dalawa — kasama na ang German, French, Japanese, at Arabic.
+Pangalawa — ipinanganak siya noong Hunyo 19, 1861, sa Calamba, Laguna,
+ikapito sa labing-isang magkakapatid ng kanyang pamilya.
 
-Hindi lang siya manunulat. Doktor din siya, pintor, eskultor, makata, at magsasaka — lahat sabay-sabay.
+Pangatlo — nakapagsalita at nakapagsulat siya sa mahigit dalawampu't dalawang wika.
+Hindi dalawa. Hindi lima. Dalawampu't dalawa —
+kasama na ang German, French, Japanese, at Arabic.
 
-Sumulat siya ng dalawang nobela — Noli Me Tangere noong 1887, at El Filibusterismo noong 1891 — na nagbunyag kung gaano ka-corrupt at abusado ang pamamahala ng Espanya.
+Pang-apat — hindi lamang siya manunulat.
+Siya ay manggagamot, pintor, eskultor, makata, at magsasaka — lahat nang sabay-sabay.
 
-At binaril siya noong Disyembre 30, 1896, sa Bagumbayan — yung tinatawag nating Luneta Park ngayon. Tatlumpu't limang taong gulang pa lang siya noon."
+Panglima — isinulat niya ang Noli Me Tangere noong 1887, at ang El Filibusterismo noong 1891 —
+dalawang nobela na nagbunyag sa buong mundo kung gaano kalala ang pananakop ng Espanya sa ating bansa.
+
+At sa huli — binaril siya noong Disyembre 30, 1896, sa Bagumbayan —
+ang lugar na tinatawag nating Luneta Park ngayon.
+Tatlumpu't limang taon lamang ang kanyang edad nang yaon."
 
 ---
 
