@@ -1966,12 +1966,38 @@
     const introSplashAudio = new Audio('audio/intro-splash.mp3');
     introSplashAudio.volume = 1.0;
 
+    // ─── BACKGROUND MUSIC ────────────────────────────────────────────────────
+    const bgMusic = new Audio('audio/bg-music.mp3');
+    bgMusic.loop = true;
+    bgMusic.volume = 0;
+
+    function fadeMusicVolume(from, to, duration) {
+      const steps = 40;
+      const interval = duration / steps;
+      const delta = (to - from) / steps;
+      let current = from;
+      bgMusic.volume = from;
+      const timer = setInterval(() => {
+        current += delta;
+        bgMusic.volume = Math.min(1, Math.max(0, current));
+        if ((delta > 0 && current >= to) || (delta < 0 && current <= to)) {
+          bgMusic.volume = to;
+          clearInterval(timer);
+          if (to === 0) bgMusic.pause();
+        }
+      }, interval);
+    }
+
     function dismissSplash() {
       if (splashDismissed) return;
       splashDismissed = true;
 
       // Play intro narration in sync with the 3D scene reveal
       introSplashAudio.play().catch(() => {});
+
+      // Fade background music in
+      bgMusic.play().catch(() => {});
+      fadeMusicVolume(0, 0.35, 3000);
 
       const tl = gsap.timeline();
 
@@ -2363,7 +2389,8 @@
         trigger: '.scroll-container',
         start: 'bottom 60%',
         end:   'bottom top',
-        scrub: true
+        scrub: true,
+        onEnter: () => fadeMusicVolume(bgMusic.volume, 0, 2500)
       }
     });
 
