@@ -1971,18 +1971,21 @@
     bgMusic.loop = true;
     bgMusic.volume = 0;
 
+    let musicFadeTimer = null;
     function fadeMusicVolume(from, to, duration) {
-      const steps = 40;
+      if (musicFadeTimer) clearInterval(musicFadeTimer);
+      const steps = 60;
       const interval = duration / steps;
       const delta = (to - from) / steps;
       let current = from;
-      bgMusic.volume = from;
-      const timer = setInterval(() => {
+      bgMusic.volume = Math.min(1, Math.max(0, from));
+      musicFadeTimer = setInterval(() => {
         current += delta;
         bgMusic.volume = Math.min(1, Math.max(0, current));
         if ((delta > 0 && current >= to) || (delta < 0 && current <= to)) {
-          bgMusic.volume = to;
-          clearInterval(timer);
+          bgMusic.volume = Math.min(1, Math.max(0, to));
+          clearInterval(musicFadeTimer);
+          musicFadeTimer = null;
           if (to === 0) bgMusic.pause();
         }
       }, interval);
@@ -1997,7 +2000,7 @@
 
       // Fade background music in
       bgMusic.play().catch(() => {});
-      fadeMusicVolume(0, 0.35, 3000);
+      fadeMusicVolume(0, 0.12, 4000);
 
       const tl = gsap.timeline();
 
