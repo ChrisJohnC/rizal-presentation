@@ -62,7 +62,6 @@
       border-radius: 4px;
       opacity: 0;
       transform: translateY(16px);
-      transition: opacity 0.6s, transform 0.6s;
     }
 
     .intro-line span {
@@ -822,36 +821,80 @@
       gap: 10px;
       opacity: 0;
       position: relative;
-      margin-top: 8px;
+      margin-top: 20px;
     }
 
-    .splash-scroll span {
-      font-family: 'Inter', sans-serif;
-      font-size: 0.58rem;
-      letter-spacing: 0.45em;
-      text-transform: uppercase;
-      color: rgba(160,120,64,0.7);
-    }
-
-    .splash-chevron {
+    /* ── PRESS SPACE KEY ────────────────────────────────────────────────── */
+    .splash-space-key {
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 3px;
+      gap: 10px;
     }
 
-    .splash-chevron i {
-      display: block;
-      width: 10px;
-      height: 10px;
-      border-right: 1px solid rgba(200,148,62,0.6);
-      border-bottom: 1px solid rgba(200,148,62,0.6);
-      transform: rotate(45deg);
-      animation: splash-bounce 1.6s ease-in-out infinite;
+    .space-label {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(0.85rem, 2vw, 1.1rem);
+      font-style: italic;
+      letter-spacing: 0.25em;
+      color: #f0deb0;
+      animation: space-glow 2.5s ease-in-out infinite;
     }
 
-    .splash-chevron i:nth-child(2) { animation-delay: 0.2s; opacity: 0.6; }
-    .splash-chevron i:nth-child(3) { animation-delay: 0.4s; opacity: 0.3; }
+    .space-key-box {
+      width: 72px;
+      height: 26px;
+      border: 1px solid rgba(200,148,62,0.7);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow:
+        0 0 12px rgba(200,148,62,0.2),
+        0 0 28px rgba(200,148,62,0.08),
+        inset 0 1px 0 rgba(200,148,62,0.15);
+      animation: key-pulse 2.5s ease-in-out infinite;
+    }
+
+    .space-key-inner {
+      width: 46px;
+      height: 2px;
+      background: linear-gradient(to right, transparent, rgba(200,148,62,0.8), transparent);
+      border-radius: 2px;
+      animation: key-shimmer 2.5s ease-in-out infinite;
+    }
+
+    .space-subtext {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.52rem;
+      letter-spacing: 0.55em;
+      text-transform: uppercase;
+      color: rgba(160, 120, 64, 0.55);
+      animation: space-glow 2.5s ease-in-out infinite 0.4s;
+    }
+
+    @keyframes space-glow {
+      0%, 100% { opacity: 0.7; text-shadow: none; }
+      50% {
+        opacity: 1;
+        text-shadow: 0 0 20px rgba(200,148,62,0.4), 0 0 40px rgba(200,148,62,0.15);
+      }
+    }
+    @keyframes key-pulse {
+      0%, 100% {
+        box-shadow: 0 0 12px rgba(200,148,62,0.2), 0 0 28px rgba(200,148,62,0.08), inset 0 1px 0 rgba(200,148,62,0.15);
+        border-color: rgba(200,148,62,0.5);
+      }
+      50% {
+        box-shadow: 0 0 20px rgba(200,148,62,0.55), 0 0 50px rgba(200,148,62,0.2), inset 0 1px 0 rgba(200,148,62,0.3);
+        border-color: rgba(200,148,62,1);
+      }
+    }
+    @keyframes key-shimmer {
+      0%, 100% { opacity: 0.4; transform: scaleX(0.7); }
+      50%       { opacity: 1;   transform: scaleX(1); }
+    }
 
     @keyframes splash-bounce {
       0%, 100% { transform: rotate(45deg) translateY(0); }
@@ -868,6 +911,135 @@
     }
 
     #splash { animation: splash-flicker 8s ease-in-out infinite; }
+
+
+    /* ── SCROLL TO CONTINUE (after auto-scroll) ─────────────────────────────── */
+    #scroll-hint {
+      position: fixed;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.2s ease;
+    }
+    #scroll-hint.visible { opacity: 1; }
+
+    .sh-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      padding: 20px 36px 18px;
+      border: 1px solid rgba(200,148,62,0.25);
+      border-radius: 4px;
+      background: rgba(5,3,1,0.65);
+      backdrop-filter: blur(6px);
+      position: relative;
+      box-shadow:
+        0 0 30px rgba(200,148,62,0.12),
+        0 0 60px rgba(200,148,62,0.06),
+        inset 0 1px 0 rgba(200,148,62,0.1);
+      animation: sh-border-glow 2.8s ease-in-out infinite;
+    }
+
+    /* corner accents */
+    .sh-inner::before, .sh-inner::after {
+      content: '';
+      position: absolute;
+      width: 10px; height: 10px;
+      border-color: rgba(200,148,62,0.7);
+      border-style: solid;
+    }
+    .sh-inner::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+    .sh-inner::after  { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+
+    .sh-rule {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+    }
+    .sh-rule::before { background: linear-gradient(to right, transparent, rgba(200,148,62,0.5)); }
+    .sh-rule::after  { background: linear-gradient(to left,  transparent, rgba(200,148,62,0.5)); }
+    .sh-rule::before, .sh-rule::after {
+      content: '';
+      display: block;
+      flex: 1;
+      height: 1px;
+    }
+
+    .sh-diamond {
+      width: 5px; height: 5px;
+      background: #c8943e;
+      transform: rotate(45deg);
+      box-shadow: 0 0 10px rgba(200,148,62,1), 0 0 20px rgba(200,148,62,0.5);
+      animation: sh-diamond-pulse 2.8s ease-in-out infinite;
+    }
+
+    .sh-label {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.5rem;
+      letter-spacing: 0.6em;
+      text-transform: uppercase;
+      color: rgba(200,148,62,0.55);
+    }
+
+    .sh-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(0.9rem, 2vw, 1.15rem);
+      font-style: italic;
+      letter-spacing: 0.12em;
+      color: #f0deb0;
+      text-shadow: 0 0 24px rgba(200,148,62,0.4), 0 0 50px rgba(200,148,62,0.15);
+      animation: sh-text-glow 2.8s ease-in-out infinite;
+    }
+
+    .sh-chevrons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      margin-top: 2px;
+    }
+    .sh-chevrons i {
+      display: block;
+      width: 11px; height: 11px;
+      border-right: 1.5px solid rgba(200,148,62,0.8);
+      border-bottom: 1.5px solid rgba(200,148,62,0.8);
+      transform: rotate(45deg);
+      animation: sh-bounce 1.6s ease-in-out infinite;
+    }
+    .sh-chevrons i:nth-child(2) { animation-delay: 0.2s;  opacity: 0.55; }
+    .sh-chevrons i:nth-child(3) { animation-delay: 0.4s;  opacity: 0.25; }
+
+    @keyframes sh-bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0);   }
+      50%       { transform: rotate(45deg) translateY(6px); }
+    }
+    @keyframes sh-text-glow {
+      0%, 100% { opacity: 0.8; text-shadow: 0 0 20px rgba(200,148,62,0.25); }
+      50%       { opacity: 1;  text-shadow: 0 0 30px rgba(200,148,62,0.6), 0 0 60px rgba(200,148,62,0.2); }
+    }
+    @keyframes sh-diamond-pulse {
+      0%, 100% { box-shadow: 0 0 8px rgba(200,148,62,0.8), 0 0 16px rgba(200,148,62,0.3); }
+      50%       { box-shadow: 0 0 16px rgba(200,148,62,1),  0 0 32px rgba(200,148,62,0.6); }
+    }
+    @keyframes sh-border-glow {
+      0%, 100% {
+        border-color: rgba(200,148,62,0.2);
+        box-shadow: 0 0 20px rgba(200,148,62,0.08), inset 0 1px 0 rgba(200,148,62,0.08);
+      }
+      50% {
+        border-color: rgba(200,148,62,0.55);
+        box-shadow: 0 0 40px rgba(200,148,62,0.25), 0 0 80px rgba(200,148,62,0.1), inset 0 1px 0 rgba(200,148,62,0.2);
+      }
+    }
 
     /* ── SCENE REVEAL OVERLAY ────────────────────────────────────────────────── */
     /* Sits between splash (z:999) and canvas (z:0) — black until reveal */
@@ -1444,6 +1616,37 @@
       box-shadow: 0 0 16px rgba(200,148,62,1), 0 0 32px rgba(200,148,62,.6), 0 0 50px rgba(200,148,62,.3);
       transform: scale(1.6);
     }
+    /* ── BULLET HIGHLIGHT (audio sync) ──────────────────────────────────────── */
+    .bullet-list li.bullet-active {
+      background: rgba(200, 148, 62, 0.10);
+      padding-left: 8px;
+    }
+    .bullet-list li.bullet-active .bullet-dot {
+      box-shadow: 0 0 16px rgba(200,148,62,1), 0 0 32px rgba(200,148,62,.6), 0 0 50px rgba(200,148,62,.3);
+      transform: scale(1.6);
+    }
+    .bullet-list li.bullet-active p {
+      color: #f5c96a;
+    }
+    .bullet-list li.bullet-active p strong {
+      color: #fff;
+    }
+    #now-conclusion.conclusion-active,
+    #us-intro.conclusion-active,
+    #us-conclusion.conclusion-active {
+      border-left-color: rgba(200,148,62,0.9) !important;
+      color: #f5c96a !important;
+      background: rgba(200,148,62,0.08);
+    }
+    #now-conclusion.conclusion-active strong,
+    #us-intro.conclusion-active strong,
+    #us-conclusion.conclusion-active strong {
+      color: #fff !important;
+    }
+    #us-intro.conclusion-active {
+      border-left: 2px solid rgba(200,148,62,0.9);
+      padding-left: 18px;
+    }
 
     /* ── FACT CARD HOVER ─────────────────────────────────────────────────────── */
     .fact-card { transition: border-color .3s, background .3s, box-shadow .3s, transform .2s ease; }
@@ -1565,9 +1768,12 @@
       </div>
 
       <div class="splash-scroll">
-        <span>I-scroll para magsimula</span>
-        <div class="splash-chevron">
-          <i></i><i></i><i></i>
+        <div class="splash-space-key">
+          <span class="space-label">Press Space</span>
+          <div class="space-key-box">
+            <div class="space-key-inner"></div>
+          </div>
+          <span class="space-subtext">to begin</span>
         </div>
       </div>
 
@@ -1579,12 +1785,23 @@
   <div id="ink-overlay"></div>
   <div id="scroll-bar"></div>
 
+  <!-- ── SCROLL HINT (appears after auto-scroll finishes) ──────────────────── -->
+  <div id="scroll-hint">
+    <div class="sh-inner">
+      <span class="sh-label">— Tapos na ang panimula —</span>
+      <div class="sh-rule"><div class="sh-diamond"></div></div>
+      <p class="sh-text">Ipagpatuloy ang Pahina</p>
+      <div class="sh-rule"><div class="sh-diamond"></div></div>
+      <div class="sh-chevrons"><i></i><i></i><i></i></div>
+    </div>
+  </div>
+
   <!-- Intro overlay — multiple lines appear as you scroll through the opening -->
   <div id="intro-quote">
     <p class="intro-line" id="line1">Isang silid. Isang pluma.</p>
     <p class="intro-line" id="line2">Na naging <span>sandata</span> ng isang bansa.</p>
-    <p class="intro-line" id="line3">Siya ay walang iba kundi si <span>José Rizal</span> —</p>
-    <p class="intro-line" id="line4">Manunulat. Manggagamot. Bayani ng Pilipinas.</p>
+    <p class="intro-line" id="line3">Siya ay si <span>Jose Rizal</span></p>
+    <p class="intro-line" id="line4">Manunulat. Doktor. Bayani ng Pilipinas.</p>
     <p class="intro-line" id="line5">Ang kanyang mga salita ay hindi lamang<br>tinta sa papel.</p>
     <p class="intro-line" id="line6">Ito ay <span>apoy</span> na nagpaliwanag sa dilim<br>ng pananakop.</p>
   </div>
@@ -1614,11 +1831,11 @@
         <li><span class="bullet-dot"></span><p>Ang buong pangalan niya: <strong>José Protasio Rizal Mercado y Alonso Realonda</strong></p></li>
         <li><span class="bullet-dot"></span><p>Ipinanganak noong <strong>Hunyo 19, 1861</strong> sa Calamba, Laguna — ikapito sa labing-isang magkakapatid ng kanyang pamilya</p></li>
         <li><span class="bullet-dot"></span><p>Nakapagsalita at nakapagsulat sa mahigit <strong>dalawampu't dalawang wika</strong> — kabilang ang Spanish, German, French, Japanese, at marami pang iba</p></li>
-        <li><span class="bullet-dot"></span><p>Hindi lamang manunulat — siya ay <strong>manggagamot, pintor, eskultor, makata, at magsasaka</strong> — lahat nang sabay-sabay</p></li>
+        <li><span class="bullet-dot"></span><p>Hindi lamang manunulat — siya ay <strong>doktor, pintor, eskultor, makata, at magsasaka</strong> — lahat nang sabay-sabay</p></li>
         <li><span class="bullet-dot"></span><p>Isinulat ang <strong>Noli Me Tangere</strong> (1887) at <strong>El Filibusterismo</strong> (1891) — mga akdang nagbunyag sa mundo ng kabuktutan ng pananakop ng Espanya</p></li>
         <li><span class="bullet-dot"></span><p>Binaril noong <strong>Disyembre 30, 1896</strong> sa Bagumbayan — tatlumpu't limang taon lamang ang kanyang edad nang yaon</p></li>
       </ul>
-      <div class="audio-player" data-src="audio/intro.mp3">
+      <div class="audio-player" data-src="audio/Panimula.wav">
         <span class="ap-label">Pakinggan</span>
         <div class="ap-row">
           <button class="ap-play" aria-label="Play/Pause">
@@ -1649,7 +1866,7 @@
         <p class="quote-text">"Ang kabataan ang pag-asa ng ating bayan."</p>
         <span class="quote-source">— José Rizal, La Juventud Filipina, 1879</span>
       </div>
-      <div class="audio-player" data-src="audio/then.mp3">
+      <div class="audio-player" data-src="audio/Then.wav">
         <span class="ap-label">Pakinggan</span>
         <div class="ap-row">
           <button class="ap-play" aria-label="Play/Pause">
@@ -1674,9 +1891,11 @@
         <li><span class="bullet-dot"></span><p>Sa gitna ng pandemyang COVID-19, mahigit <strong>2.7 milyong mag-aaral ang napilitang iwan ang kanilang pag-aaral</strong> — dulot ng kawalan ng kagamitang teknolohikal at koneksyon sa internet</p></li>
         <li><span class="bullet-dot"></span><p>Sa mga liblib na pook, may mga kabataang <strong>naglalakad ng maraming oras</strong> upang marating ang pinakamalapit na paaralan</p></li>
         <li><span class="bullet-dot"></span><p>Ang mga pampublikong paaralan ay <strong>puno at kapos sa salapi</strong> — kulang sa silya, aklat, at wastong pasilidad</p></li>
-        <li><span class="bullet-dot"></span><p>Nag-iba na ang bandila. Ngunit ang sugat — <strong>nananatili pa rin.</strong></p></li>
       </ul>
-      <div class="audio-player" data-src="audio/now.mp3">
+      <p id="now-conclusion" class="section-body" style="margin-top:28px; font-style:italic; border-left: 2px solid rgba(200,148,62,0.5); padding-left: 18px; color:#c8943e;">
+        Nag-iba na ang bandila — ngunit ang sugat ng kawalan ng pantay na edukasyon ay <strong style="color:#f0deb0;">nananatili pa rin hanggang sa araw na ito.</strong> Ito ang katotohanang dapat nating harapin.
+      </p>
+      <div class="audio-player" data-src="audio/Now.wav">
         <span class="ap-label">Pakinggan</span>
         <div class="ap-row">
           <button class="ap-play" aria-label="Play/Pause">
@@ -1702,11 +1921,11 @@
       </div>
       <ul class="bullet-list" style="margin-top: 32px;">
         <li><span class="bullet-dot"></span><p>Hindi lamang binibigkas ni Rizal ang kahalagahan ng karunungan — <strong>isinabuhay niya ito</strong>: nag-aral ng medisina, napag-aralan ang maraming wika, at sumulat alang-alang sa kanyang bayan</p></li>
-        <li><span class="bullet-dot"></span><p>Para sa kanya, ang isang Pilipinong may dunong ay <strong>hindi madaling dayain o sugpuin ng sinumang makapangyarihan</strong></p></li>
+        <li><span class="bullet-dot"></span><p>Para sa kanya, ang isang Pilipinong may karunungan ay <strong>hindi madaling dayain o sugpuin ng sinumang makapangyarihan</strong></p></li>
         <li><span class="bullet-dot"></span><p>Sa kasalukuyan: ang isang may karunungan ay may kakayahang <strong>kilalanin ang kasinungalingan, magtanong, at ipaglaban ang katotohanan</strong></p></li>
         <li><span class="bullet-dot"></span><p>Bawat mag-aaral na nagpapatuloy ng kanilang pag-aaral ay <strong>nagpapatuloy ng adhikaing sinimulan ni Rizal</strong></p></li>
       </ul>
-      <div class="audio-player" data-src="audio/values.mp3">
+      <div class="audio-player" data-src="audio/Values.wav">
         <span class="ap-label">Pakinggan</span>
         <div class="ap-row">
           <button class="ap-play" aria-label="Play/Pause">
@@ -1726,14 +1945,16 @@
       <p class="section-label">Tayo — Ano ang Ating Gampanin?</p>
       <h1 class="section-title">Ano ang Ating<br><span>Gampanin?</span></h1>
       <div class="divider"></div>
-      <p class="section-body">Si Rizal ay kabataan din noong una. Ang pagkakaiba? Pinili niyang kumilos.</p>
+      <p id="us-intro" class="section-body">Si Rizal ay kabataan din noong una. Ang pagkakaiba? Pinili niyang kumilos.</p>
       <ul class="bullet-list">
-        <li><span class="bullet-dot"></span><p><strong>Manatili sa paaralan</strong> — sapagkat hindi lahat ay tinatanggap ng biyayang ito</p></li>
-        <li><span class="bullet-dot"></span><p><strong>Suriin ang lahat ng nababasa at naririnig</strong> — sapagkat ang kakayahang mag-isip ay hindi maaaring agawin ng sinuman</p></li>
+        <li><span class="bullet-dot"></span><p><strong>Patuloy na nag-aaral</strong> — ito ang pinakamaliit ngunit pinaka-makabuluhang bagay na magagawa namin</p></li>
+        <li><span class="bullet-dot"></span><p><strong>Nagsasaliksik ng katotohanan bago maniwala</strong> — sa panahon na puno ng maling impormasyon, ang paghahanap ng katotohanan ang pinakamalakas na sandata</p></li>
         <li><span class="bullet-dot"></span><p><strong>Magsalita</strong> — kahit sa loob ng silid-aralan, kahit sa bawat pagtitipon — sapagkat ang katahimikan ay hindi kailanman nagbunga ng pagbabago</p></li>
-        <li><span class="bullet-dot"></span><p>Binago niya ang isang bansa sa pamamagitan ng kanyang pluma. <strong>Marahil, mababago ko rin ang takbo ng isang mahalagang usapin.</strong></p></li>
       </ul>
-      <div class="audio-player" data-src="audio/us.mp3">
+      <p id="us-conclusion" class="section-body" style="margin-top:28px; font-style:italic; border-left: 2px solid rgba(200,148,62,0.5); padding-left: 18px; color:#c8943e;">
+        Binago ni Rizal ang isang bansa sa pamamagitan ng kanyang pluma. <strong style="color:#f0deb0;">Ang tanong ay — ano ang gagawin mo sa kakayahang hawak mo ngayon?</strong>
+      </p>
+      <div class="audio-player" data-src="audio/uss.wav">
         <span class="ap-label">Pakinggan</span>
         <div class="ap-row">
           <button class="ap-play" aria-label="Play/Pause">
@@ -1760,7 +1981,7 @@
       </ul>
       <p class="striking">"Ang bawat salita niya ay isang hakbang pasulong.<br>Ang bawat pagpili natin ay ang susunod."</p>
       <p class="striking-tagline">Every word he wrote was a step forward. Every choice we make is the next.</p>
-      <div class="audio-player" data-src="audio/conclusion.mp3">
+      <div class="audio-player" data-src="audio/US.wav">
         <span class="ap-label">Pakinggan</span>
         <div class="ap-row">
           <button class="ap-play" aria-label="Play/Pause">
@@ -1949,14 +2170,14 @@
     const splash = document.getElementById('splash');
 
     // Animate elements in on load
-    const splashTl = gsap.timeline({ delay: 0.3 });
+    const splashTl = gsap.timeline({ delay: 0.6 });
     splashTl
-      .to('.splash-badge',    { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' })
-      .to('.splash-rule',     { opacity: 1, duration: 0.6, stagger: 0.1, ease: 'power2.out' }, '-=0.3')
-      .to('.splash-title',    { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.2')
-      .to('.splash-fullname', { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.2')
-      .to('.splash-subtitle', { opacity: 1, duration: 0.6, ease: 'power2.out' }, '-=0.3')
-      .to('.splash-scroll',   { opacity: 1, duration: 0.5, ease: 'power2.out' });
+      .to('.splash-badge',    { opacity: 1, y: 0,  duration: 1.0, ease: 'power2.out' })
+      .to('.splash-rule',     { opacity: 1,         duration: 0.9, stagger: 0.15, ease: 'power2.out' }, '-=0.4')
+      .to('.splash-title',    { opacity: 1, y: 0,  duration: 1.4, ease: 'power3.out' }, '-=0.4')
+      .to('.splash-fullname', { opacity: 1,         duration: 1.0, ease: 'power2.out' }, '-=0.4')
+      .to('.splash-subtitle', { opacity: 1,         duration: 0.9, ease: 'power2.out' }, '-=0.5')
+      .to('.splash-scroll',   { opacity: 1,         duration: 0.8, ease: 'power2.out' });
 
     // Dismiss on first scroll — cinematic sequence
     const sceneReveal = document.getElementById('scene-reveal');
@@ -1967,60 +2188,45 @@
     introSplashAudio.volume = 1.0;
 
     // ─── BACKGROUND MUSIC ────────────────────────────────────────────────────
-    const bgMusic = new Audio('image/audio-bg-music.mp3');
-    bgMusic.loop = false;
-    bgMusic.volume = 0;
 
-    let musicFadeTimer = null;
-    function fadeMusicVolume(from, to, duration) {
-      if (musicFadeTimer) clearInterval(musicFadeTimer);
-      const steps = 60;
-      const interval = duration / steps;
-      const delta = (to - from) / steps;
-      let current = from;
-      bgMusic.volume = Math.min(1, Math.max(0, from));
-      musicFadeTimer = setInterval(() => {
-        current += delta;
-        bgMusic.volume = Math.min(1, Math.max(0, current));
-        if ((delta > 0 && current >= to) || (delta < 0 && current <= to)) {
-          bgMusic.volume = Math.min(1, Math.max(0, to));
-          clearInterval(musicFadeTimer);
-          musicFadeTimer = null;
-          if (to === 0) bgMusic.pause();
-        }
-      }, interval);
-    }
+
 
     function dismissSplash() {
       if (splashDismissed) return;
       splashDismissed = true;
 
+      // Resume Web Audio context (requires user gesture)
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+
       // Play intro narration in sync with the 3D scene reveal
       introSplashAudio.play().catch(() => {});
 
       // Fade background music in, then fade out at 25.5s before the 27s track ends
-      bgMusic.play().catch(() => {});
-      fadeMusicVolume(0, 0.07, 4000);
-      setTimeout(() => fadeMusicVolume(bgMusic.volume, 0, 1500), 25500);
 
       const tl = gsap.timeline();
 
-      // 1. Splash title card slides up and fades out
-      tl.to(splash, {
-        opacity: 0,
-        y: -40,
-        duration: 0.85,
-        ease: 'power2.inOut',
-        onComplete: () => { splash.style.display = 'none'; }
+      // 1. Splash elements fade and drift up gracefully
+      tl.to('.splash-scroll, .splash-subtitle, .splash-fullname', {
+        opacity: 0, y: -12, duration: 0.7, ease: 'power2.in', stagger: 0.08
       })
+      .to('.splash-title', {
+        opacity: 0, y: -24, duration: 1.1, ease: 'power2.inOut', scale: 1.04
+      }, '-=0.2')
+      .to('.splash-rule, .splash-badge', {
+        opacity: 0, duration: 0.6, ease: 'power1.in', stagger: 0.1
+      }, '-=0.6')
+      .to(splash, {
+        opacity: 0, duration: 0.7, ease: 'power2.inOut',
+        onComplete: () => { splash.style.display = 'none'; }
+      }, '-=0.3')
 
       // 2. Black overlay fades out — the 3D scene bleeds through
       .to(sceneReveal, {
         opacity: 0,
-        duration: 1.6,
+        duration: 2.0,
         ease: 'power1.inOut',
         onComplete: () => { sceneReveal.style.display = 'none'; }
-      }, '-=0.3')
+      }, '-=0.5')
 
       // camera stays at z:20 — lerp in animate() provides natural pull-in feel
     }
@@ -2354,21 +2560,124 @@
       [64,  3,   9,  5  ],  // line 6 — long   (17%)
     ];
 
+    // Pre-load intro line audio with Web Audio API dramatic processing
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+    function buildDramaticChain(audioEl) {
+      const src = audioCtx.createMediaElementSource(audioEl);
+
+      // 1. Warmth EQ — boost low-mids, cut harsh highs
+      const warmth = audioCtx.createBiquadFilter();
+      warmth.type = 'lowshelf';
+      warmth.frequency.value = 300;
+      warmth.gain.value = 5;
+
+      const cut = audioCtx.createBiquadFilter();
+      cut.type = 'highshelf';
+      cut.frequency.value = 6000;
+      cut.gain.value = -6;
+
+      // 2. Compressor — tightens and punches the voice
+      const comp = audioCtx.createDynamicsCompressor();
+      comp.threshold.value = -24;
+      comp.knee.value       = 8;
+      comp.ratio.value      = 6;
+      comp.attack.value     = 0.003;
+      comp.release.value    = 0.25;
+
+      // 3. Gain — slight boost after compression
+      const gain = audioCtx.createGain();
+      gain.gain.value = 0.5;
+
+      src.connect(warmth);
+      warmth.connect(cut);
+      cut.connect(comp);
+      comp.connect(gain);
+      gain.connect(audioCtx.destination);
+    }
+
+    const lineAudios = [1,2,3,4,5,6].map(n => {
+      const a = new Audio(`audio/line${n}.wav`);
+      a.preload = 'auto';
+      a.crossOrigin = 'anonymous';
+      buildDramaticChain(a);
+      return a;
+    });
+
     const lines = document.querySelectorAll('.intro-line');
+    // force all lines hidden — GSAP owns opacity, not CSS transition
+    gsap.set(lines, { opacity: 0, y: 16 });
+
+    let queuedLine      = null;   // index of next line waiting to play
+    let activeLine      = null;   // index of currently playing line
+    let isAutoScrolling = false;  // true when spacebar auto-scroll is running
+
+    function finishLine(i) {
+      gsap.to(lines[i], { opacity: 0, y: -12, duration: 0.6 });
+      activeLine = null;
+      // if a line was queued while this was playing, run it now
+      if (queuedLine !== null) {
+        const next = queuedLine;
+        queuedLine = null;
+        startLine(next);
+      }
+    }
+
+    function startLine(i) {
+      activeLine = i;
+      const audio = lineAudios[i];
+      audio.currentTime = 1;
+      audio.play().catch(() => {});
+      audio.onended = () => finishLine(i);
+    }
+
+    function playLineAudio(i) {
+      // if same line already playing, do nothing
+      if (activeLine === i && !lineAudios[i].paused) return;
+
+      if (activeLine !== null && !lineAudios[activeLine].paused) {
+        // another line is still speaking — queue this one, show subtitle early
+        queuedLine = i;
+      } else {
+        // nothing playing, start immediately
+        queuedLine = null;
+        startLine(i);
+      }
+    }
+
+    function stopAll() {
+      lineAudios.forEach((a, j) => {
+        a.pause();
+        a.currentTime = 1;
+        a.onended = null;
+        gsap.to(lines[j], { opacity: 0, y: -12, duration: 0.4 });
+      });
+      activeLine = null;
+      queuedLine = null;
+    }
+
     lines.forEach((line, i) => {
-      const [start, fadeIn, stay, fadeOut] = lineConfigs[i];
-      const end = start + fadeIn + stay + fadeOut;
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: '.scroll-container',
-          start: `${start}% top`,
-          end:   `${end}% top`,
-          scrub: 1.2
+      const [start] = lineConfigs[i];
+      ScrollTrigger.create({
+        trigger: '.scroll-container',
+        start: `${start}% top`,
+        onEnter: () => {
+          if (isAutoScrolling) return;
+          gsap.to(line, { opacity: 1, y: 0, duration: 0.6 });
+          playLineAudio(i);
+        },
+        onEnterBack: () => {
+          if (isAutoScrolling) return;
+          stopAll();
+          gsap.to(line, { opacity: 1, y: 0, duration: 0.6 });
+          playLineAudio(i);
+        },
+        onLeaveBack: () => {
+          if (isAutoScrolling) return;
+          stopAll();
+          gsap.to(line, { opacity: 0, y: 0, duration: 0.4 });
         }
-      })
-      .to(line, { opacity: 1, y: 0,   duration: fadeIn })
-      .to(line, { opacity: 1,         duration: stay   })
-      .to(line, { opacity: 0, y: -12, duration: fadeOut });
+      });
     });
 
     // ─── QUILL VIDEO — fades in when camera zooms into pluma ─────────────────
@@ -2379,7 +2688,7 @@
         start: '85% top',
         end:   'bottom top',
         scrub: true,
-        onEnter: () => { quillVideo.play(); },
+        onEnter: () => { quillVideo.play(); stopAll(); },
         onLeaveBack: () => { quillVideo.pause(); quillVideo.currentTime = 0; }
       }
     })
@@ -2394,7 +2703,7 @@
         start: 'bottom 60%',
         end:   'bottom top',
         scrub: true,
-        onEnter: () => fadeMusicVolume(bgMusic.volume, 0, 2500)
+        onEnter: () => {}
       }
     });
 
@@ -2438,47 +2747,109 @@
       }
     });
 
-    // ─── SPACEBAR AUTO-SCROLL (30 seconds) ───────────────────────────────────
-    const AUTOSCROLL_DURATION = 27;
-    const scrollBar = document.getElementById('scroll-bar');
+    // ─── SPACEBAR AUTO-SCROLL (audio-driven, no fixed duration) ─────────────
+    const scrollBar  = document.getElementById('scroll-bar');
     let autoScrollTween = null;
-    let scrollProxy = { y: 0 };
+    let autoTimeouts    = [];
 
-    function startAutoScroll() {
-      const sc = document.querySelector('.scroll-container');
-      const targetScroll = sc.offsetTop + sc.offsetHeight * 0.83;
-      scrollProxy.y = window.scrollY;
-      const remaining = Math.max(0, (targetScroll - scrollProxy.y) / targetScroll);
-      const duration  = AUTOSCROLL_DURATION * remaining;
+    async function startAutoScroll() {
+      if (isAutoScrolling) return;
+      isAutoScrolling = true;
       scrollBar.style.opacity = '1';
-      autoScrollTween = gsap.to(scrollProxy, {
-        y: targetScroll,
-        duration: duration,
+      if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+      const sc          = document.querySelector('.scroll-container');
+      const finalTarget = sc.offsetTop + sc.offsetHeight * 0.83;
+
+      // wait for all audio durations to be known
+      await Promise.all(lineAudios.map(a =>
+        isNaN(a.duration)
+          ? new Promise(res => a.addEventListener('loadedmetadata', res, { once: true }))
+          : Promise.resolve()
+      ));
+      if (!isAutoScrolling) return;
+
+      const LEAD_IN = 1.0; // skip 1s silence at start of each clip
+      const GAP     = 0.5; // small gap between lines (cinematic breath)
+
+      // build time offset for each line based on actual audio duration
+      const durations   = lineAudios.map(a => Math.max(1, (a.duration || 5) - LEAD_IN));
+      const timeOffsets = [];
+      let elapsed = 0;
+      durations.forEach(d => { timeOffsets.push(elapsed); elapsed += d + GAP; });
+      const totalTime = elapsed + 1.5; // slight tail after last line
+
+      // ONE single continuous scroll tween — never stops
+      const proxy = { v: window.scrollY };
+      autoScrollTween = gsap.to(proxy, {
+        v: finalTarget,
+        duration: totalTime,
         ease: 'none',
         onUpdate() {
-          window.scrollTo(0, scrollProxy.y);
-          scrollBar.style.width = ((scrollProxy.y / targetScroll) * 100) + '%';
+          window.scrollTo(0, proxy.v);
+          scrollBar.style.width = Math.min((proxy.v / finalTarget) * 100, 100) + '%';
         },
         onComplete() {
-          autoScrollTween = null;
+          gsap.to(lines, { opacity: 0, duration: 0.8 });
+          isAutoScrolling  = false;
+          autoScrollTween  = null;
           scrollBar.style.opacity = '0';
+          // show the scroll-to-continue hint
+          document.getElementById('scroll-hint').classList.add('visible');
         }
+      });
+
+      // schedule line + audio purely on time — scroll never pauses
+      lineAudios.forEach((audio, i) => {
+        const showAt = timeOffsets[i]                    * 1000;
+        const hideAt = (timeOffsets[i] + durations[i])  * 1000;
+
+        autoTimeouts.push(setTimeout(() => {
+          if (!isAutoScrolling) return;
+          // fade in this line, fade out all others
+          lines.forEach((l, j) => {
+            gsap.to(l, { opacity: j === i ? 1 : 0, y: j === i ? 0 : -16,
+                         duration: 0.8, ease: 'power1.out' });
+          });
+          audio.currentTime = LEAD_IN;
+          audio.play().catch(() => {});
+        }, showAt));
+
+        autoTimeouts.push(setTimeout(() => {
+          if (!isAutoScrolling) return;
+          gsap.to(lines[i], { opacity: 0, y: -16, duration: 0.8, ease: 'power1.in' });
+        }, hideAt));
       });
     }
 
     function stopAutoScroll() {
+      isAutoScrolling = false;
       if (autoScrollTween) { autoScrollTween.kill(); autoScrollTween = null; }
+      autoTimeouts.forEach(clearTimeout);
+      autoTimeouts = [];
+      lineAudios.forEach(a => { a.pause(); a.currentTime = 1; a.onended = null; });
+      gsap.to(lines, { opacity: 0, duration: 0.5 });
+      activeLine = null; queuedLine = null;
       scrollBar.style.opacity = '0';
     }
 
     window.addEventListener('keydown', (e) => {
       if (e.code !== 'Space') return;
       e.preventDefault();
-      autoScrollTween ? stopAutoScroll() : startAutoScroll();
+      isAutoScrolling ? stopAutoScroll() : startAutoScroll();
     });
 
-    window.addEventListener('wheel',     () => { if (autoScrollTween) stopAutoScroll(); }, { passive: true });
-    window.addEventListener('touchmove', () => { if (autoScrollTween) stopAutoScroll(); }, { passive: true });
+    const scrollHint = document.getElementById('scroll-hint');
+    function hideScrollHint() { scrollHint.classList.remove('visible'); }
+
+    window.addEventListener('wheel', () => {
+      if (isAutoScrolling) stopAutoScroll();
+      hideScrollHint();
+    }, { passive: true });
+    window.addEventListener('touchmove', () => {
+      if (isAutoScrolling) stopAutoScroll();
+      hideScrollHint();
+    }, { passive: true });
 
     // ─── REFERENCES ANIMATION ────────────────────────────────────────────────
     if (!prefersReduced) {
@@ -2586,6 +2957,115 @@
 
       audio.addEventListener('timeupdate', updateBar);
 
+      // bullet highlight for Panimula section
+      if (src === 'audio/Panimula.wav') {
+        const panimulaBullets = document.querySelectorAll('.section.intro .bullet-list li');
+        const panimulaStamps  = [20, 26, 37, 53, 63, 78];
+        audio.addEventListener('timeupdate', () => {
+          const t = audio.currentTime;
+          let active = -1;
+          for (let i = panimulaStamps.length - 1; i >= 0; i--) {
+            if (t >= panimulaStamps[i]) { active = i; break; }
+          }
+          panimulaBullets.forEach((li, i) => li.classList.toggle('bullet-active', i === active));
+        });
+        audio.addEventListener('ended', () => {
+          panimulaBullets.forEach(li => li.classList.remove('bullet-active'));
+        });
+      }
+
+      // bullet highlight for Tayo section
+      if (src === 'audio/uss.wav') {
+        const usBullets    = document.querySelectorAll('.section.us .bullet-list li');
+        const usIntro      = document.getElementById('us-intro');
+        const usConclusion = document.getElementById('us-conclusion');
+        const usStamps     = [4, 13, 22, 34, 45];
+        audio.addEventListener('timeupdate', () => {
+          const t = audio.currentTime;
+          let active = -1;
+          for (let i = usStamps.length - 1; i >= 0; i--) {
+            if (t >= usStamps[i]) { active = i; break; }
+          }
+          usIntro.classList.toggle('conclusion-active', active === 0);
+          usBullets.forEach((li, i) => li.classList.toggle('bullet-active', i === active - 1));
+          usConclusion.classList.toggle('conclusion-active', active === 4);
+        });
+        audio.addEventListener('ended', () => {
+          usIntro.classList.remove('conclusion-active');
+          usBullets.forEach(li => li.classList.remove('bullet-active'));
+          usConclusion.classList.remove('conclusion-active');
+        });
+      }
+
+      // bullet highlight for Ngayon section
+      if (src === 'audio/Now.wav') {
+        const nowBullets    = document.querySelectorAll('.section.now .bullet-list li');
+        const nowConclusion = document.getElementById('now-conclusion');
+        const nowStamps     = [10, 26, 36, 45];
+        audio.addEventListener('timeupdate', () => {
+          const t = audio.currentTime;
+          let active = -1;
+          for (let i = nowStamps.length - 1; i >= 0; i--) {
+            if (t >= nowStamps[i]) { active = i; break; }
+          }
+          nowBullets.forEach((li, i) => li.classList.toggle('bullet-active', i === active));
+          nowConclusion.classList.toggle('conclusion-active', active === 3);
+        });
+        audio.addEventListener('ended', () => {
+          nowBullets.forEach(li => li.classList.remove('bullet-active'));
+          nowConclusion.classList.remove('conclusion-active');
+        });
+      }
+
+      // bullet highlight for Noon section
+      if (src === 'audio/Then.wav') {
+        const thenBullets = document.querySelectorAll('.section.then .bullet-list li');
+        const thenStamps  = [12, 25, 35, 43];
+        audio.addEventListener('timeupdate', () => {
+          const t = audio.currentTime;
+          let active = -1;
+          for (let i = thenStamps.length - 1; i >= 0; i--) {
+            if (t >= thenStamps[i]) { active = i; break; }
+          }
+          thenBullets.forEach((li, i) => li.classList.toggle('bullet-active', i === active));
+        });
+        audio.addEventListener('ended', () => {
+          thenBullets.forEach(li => li.classList.remove('bullet-active'));
+        });
+      }
+
+      if (src === 'audio/US.wav') {
+        const endBullets = document.querySelectorAll('.section.end .bullet-list li');
+        const endStamps  = [5, 11, 17, 26];
+        audio.addEventListener('timeupdate', () => {
+          const t = audio.currentTime;
+          let active = -1;
+          for (let i = endStamps.length - 1; i >= 0; i--) {
+            if (t >= endStamps[i]) { active = i; break; }
+          }
+          endBullets.forEach((li, i) => li.classList.toggle('bullet-active', i === active));
+        });
+        audio.addEventListener('ended', () => {
+          endBullets.forEach(li => li.classList.remove('bullet-active'));
+        });
+      }
+
+      if (src === 'audio/Values.wav') {
+        const valuesBullets = document.querySelectorAll('.section.values .bullet-list li');
+        const valuesStamps  = [8, 22, 32, 42];
+        audio.addEventListener('timeupdate', () => {
+          const t = audio.currentTime;
+          let active = -1;
+          for (let i = valuesStamps.length - 1; i >= 0; i--) {
+            if (t >= valuesStamps[i]) { active = i; break; }
+          }
+          valuesBullets.forEach((li, i) => li.classList.toggle('bullet-active', i === active));
+        });
+        audio.addEventListener('ended', () => {
+          valuesBullets.forEach(li => li.classList.remove('bullet-active'));
+        });
+      }
+
       audio.addEventListener('ended', () => {
         btn.classList.remove('playing');
         player.classList.remove('ap-active');
@@ -2629,6 +3109,7 @@
         updateBar();
       });
     });
+
 
     // ─── TOP SCROLL PROGRESS BAR ─────────────────────────────────────────
     const topProgress = document.getElementById('top-progress');
